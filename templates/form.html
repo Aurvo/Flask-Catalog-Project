@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+	<form class="stdForm" actoin="{% block submitURL %}{% endblock %}" method="POST">
+		<h2>{% block formName %}{% endblock %}</h2>
+		Name: <input class="formEle" type="text" name="name" required value="{% block itemName %}{% endblock %}">
+		<br>
+		<br>
+		Description:
+		<br>
+		<textarea class="formEle" name="description" required>{% block itemDesc %}{% endblock %}</textarea>
+		<br>
+		<br>
+		Category:
+		<select class="formEle" required name="category">
+			{% for cat in categories %}
+				<option value="{{cat.id}}" {% if category.id==cat.id %}selected{% endif %}>{{cat.name}}</option>
+			{% endfor %}
+		</select>
+		<br>
+		<br>
+		<input type="submit" value="Submit"></input>
+		<a href="{{url_for('catalogItems', category_id=category.id)}}"><input type="button" value="Cancel"></input></a>
+	</form>
+{% endblock %}

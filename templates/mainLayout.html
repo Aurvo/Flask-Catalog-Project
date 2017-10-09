@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block head %}
+	{{ super() }}
+	{% block pageURL %}
+		<meta id="page-url" data-url="{{url_for('catalogItems', category_id=category.id)}}">
+	{% endblock %}
+{% endblock %}
+{% block content %}
+    <div class="flexContainer">
+		<aside class="mainAside rounded tallEle">
+			<div class="asideBorderBot">
+				<h2 class="noMargHeader">Categories</h2><br>
+				<a class="asideBtn recentItemsBtn" href="{{url_for('catalogHome')}}">View Latest Items</a>
+			</div>
+			{% for cat in categories %}
+				<a class="asideBtn" href="{{url_for('catalogItems', category_id=cat.id)}}">{{cat.name}}</a>
+			{% endfor %}
+		</aside>
+		<section class="mainSection rounded tallEle">
+			<div class="flexContainer relative">
+				<h2 class="noMargHeader">{% block mainSectionName %}Latest Items{% endblock %}</h2>
+				<a class="relative" style="left: 25px;" href="{{url_for('addItem', category_id=category.id)}}">
+					<span class="newItemBtn">New Item</span>
+				</a>
+			</div>
+			<hr>
+			{% block ItemContent %}{% endblock %}
+		</section>
+	</div>
+{% endblock %}
+{% block script %}
+{{ super() }}
+<script>
+	
+	//*****************************************************
+	//Code for Code for Showing/Hiding of Item Descriptions
+	//*****************************************************
+	
+	//Makes it so that clicking on each item name in the item list shows/hides the
+	//corresponding item description (these are all present in Jinja2 templates that extend
+	//this one)
+	function itemBtnsToDescs() {
+		var btns = document.getElementsByClassName("itemBtn");
+		var descs = document.getElementsByClassName("itemDesc");
+		for (var i = 0; i < btns.length; i++) {
+			btns[i].addEventListener("click", btnToDescFunct(descs, i));
+		}
+	}
+	
+	//Takes an array (of DOM elements with class "itemDesc"--present in Jinja2 templates
+	//that extend this one) and and an array index
+	//Hides/Shows the DOM element by toggling its display style
+	function btnToDescFunct(descs, index) {
+		return function() {
+			var desc = descs[index];
+			desc.style.display = desc.style.display == "block" ? "none" : "block";
+		};
+	}
+
+	itemBtnsToDescs();
+	
+	//*****************************************************
+	//Code for Delete Form
+	//*****************************************************
+	
+	//the parent div of the Delete Form
+	//Covers the page, has a mostly transparent, grey background, and has the form
+	//in the center
+	var maskDiv;
+
+	//show the Delete Form (technically: show maskDiv, which contains the form)
+	function showDelete(itemID) {
+		maskDiv = document.createElement("DIV");
+		maskDiv.className = "mask";
+		maskDiv.innerHTML = '<form class="deleteBox" id="delete-form" method="POST" action='+document.getElementById("page-url").getAttribute("data-url")+'>\
+			<input type="hidden" name="itemID" value="'+itemID+'">\
+			<div style="margin-bottom: 20px;">Are you sure you would like to delete this item?</div>\
+			<div style="margin: auto;">\
+				<span class="btn blueBtn" onclick="submitDelete()">Yes</span>\
+				<span class="btn whiteBtn" onclick="destroyDelete()">No</span>\
+			</div>\
+		</form>';
+		document.body.appendChild(maskDiv);
+	}
+	
+	//get rid of the Delete Form
+	function destroyDelete() {
+		document.body.removeChild(maskDiv);
+	}
+	
+	//Submit the Delete form
+	//This function is necessary because I'm not using button elements for my
+	//form buttons (which would allow me to specify the submit button via element
+	//attributes); I'm using spans as buttons to avoid editing out the default button styles.
+	function submitDelete() {
+		document.getElementById("delete-form").submit();
+	}
+</script>
+{% endblock %}

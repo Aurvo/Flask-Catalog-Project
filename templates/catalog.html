@@ -1,0 +1,16 @@
+{% extends "mainLayout.html" %}
+{% block title %}Catalog Home{% endblock %}
+{% block mainSectionName %}Recent Items{% endblock %}
+{% block ItemContent %}
+	{% for item in recentItems %}
+		<div>
+			<span class="itemBtn">{{item.name}}</span>
+			{% if isLoggedIn %}
+				| <a class="formLink" href="{{url_for('editItem', category_id=category.id, item_id=item.id)}}">Edit</a>
+				| <span class="formLink" onclick="showDelete({{item.id}})">Delete</span>
+			{% endif %}
+			<span class="dateText">Last Updated: {{item.last_updated}} UTC</span>
+		<div>
+		<div class="itemDesc">{{item.description}}</div>
+	{% endfor %}
+{% endblock %}

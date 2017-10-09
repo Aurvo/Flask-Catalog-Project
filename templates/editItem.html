@@ -1,0 +1,6 @@
+{% extends "form.html" %}
+{% block title %}Edit {{item.name}}{% endblock %}
+{% block submitURL %}{{url_for('editItem', category_id=category.id, item_id=item.id)}}{% endblock %}
+{% block formName %}Edit Item: {{item.name}}{% endblock %}
+{% block itemName %}{{item.name}}{% endblock %}
+{% block itemDesc %}{{item.description}}{% endblock %}

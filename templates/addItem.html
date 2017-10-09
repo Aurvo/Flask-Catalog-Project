@@ -1,0 +1,4 @@
+{% extends "form.html" %}
+{% block title %}New Catalog Item{% endblock %}
+{% block submitURL %}{{url_for('addItem', category_id=category.id)}}{% endblock %}
+{% block formName %}Add New Item{% endblock %}

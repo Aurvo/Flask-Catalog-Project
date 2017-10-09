@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% block head %}
+		<meta charset="UTF-8">
+		<title>{% block title %}Catalog App{% endblock %}</title>
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<script src="//apis.google.com/js/platform.js?onload=start"></script>
+	{% endblock %}
+</head>
+<body>
+	<header class="mainHeader flexContainer" style="margin-bottom: 5px;">
+		<h1 class="mhTitle noMargHeader halfParent">Catalog App</h1>
+		<div class="halfParent relative">
+		{% if not isLoggedIn %}
+			<div style="position: absolute; top: 8px; right: 20px;" id="login-btn">
+				<span class="g-signin"
+					data-scope="openid email"
+					data-clientid="938271291364-dnkge2vf6n22lc8j2n3qh50mavs2dhqd.apps.googleusercontent.com"
+					data-redirecturi="postmessage"
+					data-accesstype="offline"
+					data-cookiepolicy="single_host_origin"
+					data-callback="logInCallback"
+					data-approvalprompt="force">
+				</span>
+			</div>
+		{% else %}
+			<a href="{{url_for('gdisconnect')}}"><span class="mhLogOutBtn">Sign Out</span></a>
+		{% endif %}
+		</div>
+	</header>
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			<div class="flashDiv" style="margin-bottom: 5px;">
+			{% for message in messages %}
+				<p><strong>{{message}}</strong></p>
+			{% endfor %}
+			</div>
+		{% endif %}
+	{% endwith %}
+	{% block content %}{% endblock %}
+</body>
+{% block script %}
+<script>
+
+	//Called after the state token has been validated
+	//Accesses the applications /gconnect rout, which then, in turn,
+	//makes a login request with Google.
+	function logInCallback(authResult) {
+		if (authResult['code']) {
+			$.ajax({
+				type: "POST",
+				url: '/gconnect?state={{STATE}}',
+				processData: false,
+				data: authResult['code'],
+				contentType: "application/octet-stream; charset=utf-8",
+				success: function(result) {
+					if (result) {
+						window.location.href = "/";
+					} else {
+						console.log("server side authorization failed");
+					}
+				}
+			});
+		} else {
+			console.log("authorization code not received");
+		}
+	}
+</script>
+{% endblock %}
+</html>

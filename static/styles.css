@@ -1,0 +1,226 @@
+/*Global Styles*/
+
+* {
+	box-sizing: border-box;
+}
+
+a:link, a:visited { 
+	color: blue;
+	text-decoration: none;
+}
+
+a:link:active, a:visited:active { 
+	color: blue;
+}
+
+.flexContainer {
+	display: -webkit-flex;
+	display: flex;
+}
+
+.noMargHeader {
+	-webkit-margin-before: 0em;
+	-webkit-margin-after: 0em;
+}
+
+.halfParent {
+	width: 50%
+}
+
+.relative {
+	position: relative;
+}
+
+.rounded {
+	border-radius: 5px;
+}
+
+.tallEle {
+	min-height: 300px;
+}
+
+.flashDiv {
+	width: 100%;
+	color: green;
+	background-color: #eeffee;
+	text-align: center;
+	border: 2px ridge green;
+}
+
+/*Header Styles*/
+
+.mainHeader {
+	background-image:
+		linear-gradient(
+			white, #aaaaff
+		);
+	padding: 5px;
+}
+
+.mhTitle {
+	font-size: 40px;
+}
+
+
+
+.mhLogOutBtn {
+	display: inline-bloxk;
+	color: white;
+	background-color: orange;
+	font-size: 20px;
+	text-align: center;
+	padding: 4px;
+	border-radius: 5px;
+	box-shadow: 1px 1px 1px grey;
+	font-family: Arial, Helvetica, sans-serif;
+	position: absolute;
+	top: 8px;
+	right: 20px;
+}
+
+/* Aside Styles */
+
+.mainAside {
+	width: 20%;
+	margin-right: 3%;
+	overflow: auto;
+	padding: 10px;
+	background: #ffff88;
+}
+
+.asideBtn {
+	display: block;
+	color: blue;
+	text-decoration: none;
+}
+
+.asideBtn:hover {
+	background-color: #cccc66;
+	cursor: pointer;
+}
+
+.recentItemsBtn {
+	color: #008888;
+}
+
+.asideBorderBot {
+	border-bottom: 1px solid black;
+	margin-bottom: 10px;
+	padding-bottom: 5px;
+}
+
+/* Section Styles */
+
+.mainSection {
+	width: 77%;
+	padding: 10px;
+	background: #aaffaa;
+}
+
+.newItemBtn {
+	color: black;
+	background-color: #ddddff;
+	font-size: 15px;
+	vertical-align: -.32em;
+	text-align: center;
+	padding: 3px;
+	border-radius: 5px;
+	box-shadow: 1px 1px 1px black;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.itemBtn {
+	color: brown;
+	text-decoration: none;
+}
+
+.itemBtn:hover {
+	color: orange;
+	cursor: pointer;
+}
+
+.itemDesc {
+	display: none;
+	color: grey;
+	padding: 3px 0px 3px 10px;
+}
+
+.formLink {
+	color: blue;
+}
+
+.formLink:hover {
+	cursor: pointer;
+}
+
+.dateText {
+	font-size: 10px;
+}
+
+/* Add/Update Form Styles */
+
+.stdForm {
+	background-color: #ff6666;
+	width: 350px;
+	margin: auto;
+	padding: 20px;
+	border-radius: 5px;
+	box-shadow: 1px 1px 1px grey;	
+}
+
+.stdForm textarea {
+	display: inline-block;
+	overflow-y: auto;
+	width: 300px;
+	height: 100px;
+}
+
+.formEle {
+	border-radius: 5px;
+	box-shadow: 1px 1px 2px black;
+}
+
+/* Delete Form Styles */
+
+.mask {
+	z-index: 1;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(128,128,128,.3);
+}
+
+.deleteBox {
+	z-index: 2;
+	position: absolute;
+	top: 35%;
+	left: 30%;
+	width: 40%;
+	background-color: #eeeeee;
+	text-align: center;
+	padding: 15px;
+}
+
+.btn {
+	border-radius: 3px;
+	padding: 3px;
+}
+
+.btn:hover {
+	cursor: pointer;
+}
+
+.blueBtn {
+	background-color: blue;
+	color: white;
+	border: 1px solid white;
+}
+
+.whiteBtn {
+	background-color: white;
+	color: blue;
+	border: 1px solid blue;
+}
+/* Rest of Styles */
