@@ -199,7 +199,6 @@ def gconnect():
     if result['issued_to'] != CLIENT_ID:
         response = make_response(
             json.dumps("Token's client ID does not match app's."), 401)
-        print "Token's client ID does not match app's."
         response.headers['Content-Type'] = 'application/json'
         return response
     stored_access_token = login_session.get('access_token')
@@ -229,9 +228,6 @@ connected.'),
     output += login_session['picture']
     output += ' "style = width: 300px; height: 300px;border-radius: 150px;\
 -webkit-border-radius: 150px;-moz-border-radius: 150px;">'
-    print "login_session:\n--------------"
-    for field in login_session:
-        print str(field) + ": " + str(login_session[field])
     # Sometimes, the Google username may not be present.
     # Flash a welcome message containg the user's Google username if
     # ppresent. Else, flash a generic welcome message.
@@ -249,22 +245,16 @@ def gdisconnect():
     access_token = login_session.get('access_token')
     # make sure user had an access token - generate error page if not
     if access_token is None:
-        print 'Access Token is None'
         response = make_response(json.dumps('Current user not connected.'),
                                  401)
         response.headers['Content-Type'] = 'application/json'
         return response
-    print 'In gdisconnect access token is %s', access_token
-    print 'User name is: '
-    print login_session['username']
     # logout requests for the Google Oath 2.0 API go to this URL
     url = 'https://accounts.google.com/o/oauth2/revoke?token=\
 %s' % login_session['access_token']
     h = httplib2.Http()
     # send GET request to logout url
     result = h.request(url, 'GET')[0]
-    print 'result is '
-    print result
     # if request returns a status of 200, destroy login session info
     # flash message confirming logout, else generate an error page
     if result['status'] == '200':
