@@ -160,8 +160,13 @@ def generateNewLoginState():
     return state
 
 
+def writeToLog(message):
+    sys.stderr.write(message)
+    sys.stderr.flush()
+
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
+    writeToLog("error 1")
     # Ensure state token passed to gconnect request = state passed to client
     if request.args.get('state') != login_session['state']:
         response = make_response(json.dumps('Invalid state parameter.'), 401)
@@ -169,11 +174,13 @@ def gconnect():
         return response
     # Obtain authorization code
     code = request.data
+    writeToLog("error 1.5")
     try:
         # Confirm the code passed to client from Google = code passed
         # to this server by the client. The confirmation is done by
         # passing the code to the Google Oauth server and leting it confirm
         # they're the same. It will then give us a credentials object.
+	writeToLog("error 2")
         oauth_flow = flow_from_clientsecrets('client_secrets.json', scope='')
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
@@ -181,6 +188,7 @@ def gconnect():
         response = make_response(
             json.dumps('Failed to upgrade the authorization code.'), 401)
         response.headers['Content-Type'] = 'application/json'
+	writeToLog("error 3")
         return response
     # Check that the access token is valid.
     access_token = credentials.access_token
@@ -192,13 +200,15 @@ def gconnect():
     if result.get('error') is not None:
         response = make_response(json.dumps(result.get('error')), 500)
         response.headers['Content-Type'] = 'application/json'
-	raise Exception(result.get('error'))
+	writeToLog("error 4")
+	return response
     # Verify that the access token is used for the intended user.
     gplus_id = credentials.id_token['sub']
     if result['user_id'] != gplus_id:
         response = make_response(
             json.dumps("Token's user ID doesn't match given user ID."), 401)
         response.headers['Content-Type'] = 'application/json'
+	writeToLog("error 5")
         return response
     # Verify that the access token is valid for this app.
     if result['issued_to'] != CLIENT_ID:
