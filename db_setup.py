@@ -35,7 +35,7 @@ class Item(Base):
                 'last_updated_UTC': str(self.last_updated),
                 'category': self.category.name
                 }
+DB_STRING = 'postgresql://ubuntu:abcdefg@localhost/catalog'
 
-
-engine = create_engine('sqlite:///catalog.db')
+engine = create_engine(DB_STRING)
 Base.metadata.create_all(engine)

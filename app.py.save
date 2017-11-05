@@ -12,7 +12,6 @@ import requests
 import httplib2
 import json
 from oauth2client.client import flow_from_clientsecrets, FlowExchangeError
-import sys
 
 app = Flask(__name__)
 app.secret_key = 'super_secret_key'  # needed for message flashing
@@ -76,7 +75,7 @@ def catalogHome():
     # render page
     return render_template('catalog.html',
                            categories=getAllCategories(),
-                           category=getFirstCategory(),
+                           category=getCategory(1),
                            recentItems=newItems,
                            STATE=generateNewLoginState(),
                            isLoggedIn='username' in login_session)
@@ -192,8 +191,6 @@ def gconnect():
     if result.get('error') is not None:
         response = make_response(json.dumps(result.get('error')), 500)
         response.headers['Content-Type'] = 'application/json'
-	print >> sys.stderr, "500 response.get error:"
-	print >> sys.stderr, response.get('error')
         return response
     # Verify that the access token is used for the intended user.
     gplus_id = credentials.id_token['sub']
