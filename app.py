@@ -181,7 +181,7 @@ def gconnect():
         # passing the code to the Google Oauth server and leting it confirm
         # they're the same. It will then give us a credentials object.
 	writeToLog("error 2")
-        oauth_flow = flow_from_clientsecrets('client_secrets.json', scope='')
+        oauth_flow = flow_from_clientsecrets('/var/www/html/client_secrets.json', scope='')
 	writeToLog("error 2.1")
         oauth_flow.redirect_uri = 'postmessage'
 	writeToLog("error 2.2")
